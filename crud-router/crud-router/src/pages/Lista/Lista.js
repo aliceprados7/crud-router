@@ -9,8 +9,21 @@ function Lista({contacts, setContacts}){
 
     const handleSave = (id) => {
         setContacts(
-            
+            contacts.map((c) => (
+                c.id === id ? {...c, name: newName, phone: newPhone} : c
+            ))
         )
+        setEditingId(null)
+    }
+
+    const handleEdit = (contact) => {
+        setEditingId(contact.id);
+        setNewName(contact.name);
+        setNewPhone(contact.phone)
+    }   
+
+    const handleDelete = (id) => {
+        setContacts(contacts.filter((c) => c.id !== id))
     }
 
     return(
@@ -35,22 +48,14 @@ function Lista({contacts, setContacts}){
                                     onChange={(e) => setNewPhone(e.target.value)}
                                     >
                                     </input>
-                                    <button onClick={() => handleSave(contact.id)}>
-                                        Salvar
-                                    </button>
+                                    <button onClick={() => handleSave(contact.id)}>Salvar</button>
                                 </>)
                                 :
                                 (
                                     <>
-                                        <span>
-                                            {contact.name} - {contact.phone}
-                                        </span>
-                                        <button onClick={() => handleEdit(contact)}>
-                                            Editar
-                                        </button>
-                                        <button onClick={() => handleDelete(contact.id)}>
-                                            Deletar
-                                        </button>
+                                        <span>{contact.name} - {contact.phone}</span>
+                                        <button onClick={() => handleEdit(contact)}>Editar</button>
+                                        <button onClick={() => handleDelete(contact.id)}>Deletar</button>
                                     </>
                                 )
 
